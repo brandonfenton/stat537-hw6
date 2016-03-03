@@ -1,0 +1,98 @@
+---
+title: 'Stat 537: Homework 6'
+author: "Brandon Fenton and Kenny Flagg"
+date: "Due Tuesday, March 8 at 5:00 PM"
+output: pdf_document
+header-includes: \usepackage{float}
+---
+
+The following will involve working with a data set related to spatial variation in a suite of potential predictor variables and then, eventually, for building a predictive model for the presence/absence of whitebark pine in the greater Yellowstone Ecosystem. 
+
+For this work, we will focus on the historic climate and water balance data only (read the related sections carefully for variable names and definitions) in http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0111669
+
+Read the article as we will find all of the paper interesting before the end of the semester. Initially, we are interested in doing a PCA of the monthly 1950 to 1980 average minimum and maximum temperature, precipitation, and snow pack (Q=48). Note that the number of each variable is the month of the year from January to December (1 to 12). You can use tc1_r below for this first analysis as I subset the entire data set for you. 
+
+The provided code will source in a modified version of corrplot.mixed that I will discuss in class. The short version is that it orders the variables based on a hierarchical cluster analysis using a dissimilarity measure that treats positive and negative correlations equally (two variables that have r=0.5 are just as similar as two variables that have r=-0.5). 
+
+```{r, warning=F,message=F}
+
+tc1<-read.csv("https://montana.box.com/shared/static/m5tv7r4ce7mw3w0vyqu0q7i1f8jflkkc.csv",header=T) #Data set without any modifications from https://knb.ecoinformatics.org/#view/doi:10.5063/F1DZ067F
+tc1$responsef<-factor(tc1$response)
+tc1_r<-tc1[,c(4:39,64:75)]
+cor1<-cor(tc1_r)
+
+require(corrplot)
+source("https://montana.box.com/shared/static/7ydjuwpraqpuovf7r1ovorsp828ckzs0.r")
+corrplot_mg(cor1,order="hclust",tl.pos="lt")
+
+
+```
+
+1) _Discuss the pattern in the correlation matrix._
+
+2) _Perform a PCA of these variables based on the correlation matrix, report a biplot and scree plot. No discussion, just plots._
+```{r p2_a, echo=F, comment=NA, fig.pos="H", fig.align="center", cache=T, size="footnotesize"}
+
+```
+3) _Interpret the first and fourth PCs based on the eigenvector coefficients._
+
+
+4) _Calculate the fourth PC using the predict function. Then replicate that calculation using the eigenvector and original variables (remember that the variables need to be standardized - the scale() function is a nice option). Show that they are the same._
+
+```{r p4_a, echo=F, comment=NA, fig.pos="H", fig.align="center", cache=T, size="footnotesize"}
+
+```
+
+5) Now use your interpretation of PC4 to define a set of coefficients that should involve a reduced set of coefficients that are "different" from 0 to calculate the PC 4 scores. Make a plot of the real scores using all coefficients and based on this subset and compare the results. 
+
+```{r p5_a, echo=F, comment=NA, fig.pos="H", fig.align="center", cache=T, size="footnotesize"}
+
+```
+
+6) For the moment, we will focus on just January minimum temperatures (something they used as an explanatory variable in their predictive model). The following fits a bivariate tensor-product penalized regression spline as function of the latitude and longitude of the observations and generates an estimated surface for the mean temperature as a deviation from the mean. Does location seem to matter for the temperatures? (I am not expecting you to know anything about the GAM I am using - it is just an estimate of the mean temperature surface.)
+
+```{r, warning=F,message=F}
+require(mgcv)
+gm1<-gam(tmin1~te(lon,lat),data=tc1)
+ plot(gm1)
+ vis.gam(gm1)
+``` 
+ 
+7) Perform a Mantel test for a Euclidean distance matrix between the tmin1's vs a Euclidean distance matrix between the spatial locations defined by the lat and lon variables. Report the null hypothesis for the test specific to the situation. And report what you can conclude based on the result. [Note: this may take a while to run on your computer and might! cause you to run out of RAM. You are welcome to work with other students to obtain a computer with sufficient resources to complete the permutations.] Does this result agree or disagree with your previous result.
+
+```{r p7_a, echo=F, comment=NA, fig.pos="H", fig.align="center", cache=T, size="footnotesize"}
+
+```
+
+# R Code Appendix:
+
+Problem 2:
+```{r a2, ref.label='p2_a', eval=F}
+```
+
+Problem 4:
+```{r a4, ref.label='p4_a', eval=F}
+```
+
+Problem 5:
+```{r a5, ref.label='p5_a', eval=F}
+```
+
+Problem 7:
+```{r a7, ref.label='p7_a', eval=F}
+```
+
+<!--- ### About This Markdown File
+
+  * File creation date: `r Sys.Date()`
+  * `r R.version.string`
+  * R version (short form): `r getRversion()`
+  * Additional session information
+  
+```{r echo=FALSE}
+sessionInfo()  # could use devtools::session_info() if you prefer that
+```
+-->
+
+
+
