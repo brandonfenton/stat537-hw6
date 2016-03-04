@@ -83,7 +83,13 @@ gm1<-gam(tmin1~te(lon,lat),data=tc1)
 require(vegan)
 spat.dists <- dist(data.frame(tc1$lat, tc1$lon))
 tmin1.dists <- dist(tc1_r$tmin1)
+
+ptm <- proc.time()
+
 mantel(spatdists, tmin1.dists)
+
+exectime <- proc.time() - ptm
+print(exectime)
 ```
 
 # R Code Appendix:
