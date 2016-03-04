@@ -14,18 +14,18 @@ Read the article as we will find all of the paper interesting before the end of 
 
 The provided code will source in a modified version of corrplot.mixed that I will discuss in class. The short version is that it orders the variables based on a hierarchical cluster analysis using a dissimilarity measure that treats positive and negative correlations equally (two variables that have r=0.5 are just as similar as two variables that have r=-0.5). 
 
-```{r, warning=F,message=F, cache=T, fig.width=6, fig.height=6}
-
-tc1<-read.csv("https://montana.box.com/shared/static/m5tv7r4ce7mw3w0vyqu0q7i1f8jflkkc.csv",header=T) #Data set without any modifications from https://knb.ecoinformatics.org/#view/doi:10.5063/F1DZ067F
-tc1$responsef<-factor(tc1$response)
-tc1_r<-tc1[,c(4:39,64:75)]
-cor1<-cor(tc1_r)
-
-require(corrplot)
-source("https://montana.box.com/shared/static/7ydjuwpraqpuovf7r1ovorsp828ckzs0.r")
-corrplot_mg(cor1,order="hclust",tl.pos="lt")
-
-
+```{r, warning=F, message=F, cache=T, fig.height=10, fig.width=10}
+ 
+ tc1<-read.csv("https://montana.box.com/shared/static/m5tv7r4ce7mw3w0vyqu0q7i1f8jflkkc.csv",header=T) 
+ tc1$responsef<-factor(tc1$response)
+ tc1_r<-tc1[,c(4:39,64:75)]
+ cor1<-cor(tc1_r)
+ 
+ require(corrplot)
+ source("https://montana.box.com/shared/static/7ydjuwpraqpuovf7r1ovorsp828ckzs0.r")
+ corrplot_mg(cor1,order="hclust",tl.pos="lt")
+ 
+ 
 ```
 
 1) _Discuss the pattern in the correlation matrix._
@@ -80,16 +80,16 @@ gm1<-gam(tmin1~te(lon,lat),data=tc1)
 7) Perform a Mantel test for a Euclidean distance matrix between the tmin1's vs a Euclidean distance matrix between the spatial locations defined by the lat and lon variables. Report the null hypothesis for the test specific to the situation. And report what you can conclude based on the result. [Note: this may take a while to run on your computer and might! cause you to run out of RAM. You are welcome to work with other students to obtain a computer with sufficient resources to complete the permutations.] Does this result agree or disagree with your previous result.
 
 ```{r p7_a, echo=F, comment=NA, fig.pos="H", fig.align="center", cache=T, size="footnotesize"}
-require(vegan)
-spat.dists <- dist(data.frame(tc1$lat, tc1$lon))
-tmin1.dists <- dist(tc1_r$tmin1)
-
-ptm <- proc.time()
-
-mantel(spatdists, tmin1.dists)
-
-exectime <- proc.time() - ptm
-print(exectime)
+ require(vegan)
+ spat.dists <- dist(data.frame(tc1$lat, tc1$lon))
+ tmin1.dists <- dist(tc1_r$tmin1)
+ 
+ # ptm <- proc.time()
+ 
+ mantel(spat.dists, tmin1.dists)
+ 
+ # exectime <- proc.time() - ptm
+ # print(exectime)
 ```
 
 # R Code Appendix:
@@ -111,8 +111,8 @@ Problem 5:
 ```
 
 Problem 7:
-```{r a7, ref.label='p7_a', eval=F}
-```
+# ```{r a7, ref.label='p7_a', eval=F}
+# ```
 
 <!--- ### About This Markdown File
 
