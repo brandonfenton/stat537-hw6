@@ -14,7 +14,7 @@ Read the article as we will find all of the paper interesting before the end of 
 
 The provided code will source in a modified version of corrplot.mixed that I will discuss in class. The short version is that it orders the variables based on a hierarchical cluster analysis using a dissimilarity measure that treats positive and negative correlations equally (two variables that have r=0.5 are just as similar as two variables that have r=-0.5). 
 
-```{r, warning=F,message=F}
+```{r, warning=F,message=F, cache=T, fig.width=6, fig.height=6}
 
 tc1<-read.csv("https://montana.box.com/shared/static/m5tv7r4ce7mw3w0vyqu0q7i1f8jflkkc.csv",header=T) #Data set without any modifications from https://knb.ecoinformatics.org/#view/doi:10.5063/F1DZ067F
 tc1$responsef<-factor(tc1$response)
@@ -32,14 +32,33 @@ corrplot_mg(cor1,order="hclust",tl.pos="lt")
 
 2) _Perform a PCA of these variables based on the correlation matrix, report a biplot and scree plot. No discussion, just plots._
 ```{r p2_a, echo=F, comment=NA, fig.pos="H", fig.align="center", cache=T, size="footnotesize"}
+# PCA
+pcs <- prcomp(tc1_r, scale=T, center=T)
 
+# Biplot
+biplot(pcs, col =  c("#00000040", "#ff0000c0"))
+
+# Scree plot
+plot(pcs, type="lines", main = "Eigenvalues")
+abline(h=c(1, 0.75), lty=2:3)
 ```
 3) _Interpret the first and fourth PCs based on the eigenvector coefficients._
 
+```{r p3_a, echo=F, message=F, comment=NA, fig.pos="H", fig.align="center", cache=T, size="footnotesize"}
+require(pander)
+
+pander(pcs$rotation[,c(1,4)])
+
+```
 
 4) _Calculate the fourth PC using the predict function. Then replicate that calculation using the eigenvector and original variables (remember that the variables need to be standardized - the scale() function is a nice option). Show that they are the same._
 
 ```{r p4_a, echo=F, comment=NA, fig.pos="H", fig.align="center", cache=T, size="footnotesize"}
+predict.scores <- predict(pcs)[,4]
+ev.4 <- pcs$rotation[,4]
+ev.scores <- as.matrix(scale(tc1_r)) %*% ev.4
+
+round(sum(predict.scores - ev.scores), 10)
 
 ```
 
@@ -61,13 +80,20 @@ gm1<-gam(tmin1~te(lon,lat),data=tc1)
 7) Perform a Mantel test for a Euclidean distance matrix between the tmin1's vs a Euclidean distance matrix between the spatial locations defined by the lat and lon variables. Report the null hypothesis for the test specific to the situation. And report what you can conclude based on the result. [Note: this may take a while to run on your computer and might! cause you to run out of RAM. You are welcome to work with other students to obtain a computer with sufficient resources to complete the permutations.] Does this result agree or disagree with your previous result.
 
 ```{r p7_a, echo=F, comment=NA, fig.pos="H", fig.align="center", cache=T, size="footnotesize"}
-
+require(vegan)
+spat.dists <- dist(data.frame(tc1$lat, tc1$lon))
+tmin1.dists <- dist(tc1_r$tmin1)
+mantel(spatdists, tmin1.dists)
 ```
 
 # R Code Appendix:
 
 Problem 2:
 ```{r a2, ref.label='p2_a', eval=F}
+```
+
+Problem 3:
+```{r a3, ref.label='p3_a', eval=F}
 ```
 
 Problem 4:
