@@ -33,7 +33,7 @@ There are four apparent clusters of variables. The first consists of the the pre
 
 The second cluster includes all of the temperature variables. These have positive correlations since temperature trends continue from one month to the next. The minimum and maximum temperatures form two sub-clusters, with maxima being strongly correlated with other maxima, and minima strongly correlated with other minima, but the correlations are weak to moderate between minimum temperatures and maximum tempteratures. The temperature variables are negatively correlated with precipitation and snowpack.
 
-The third cluster includes the rest of the precipitation and snowpack levels except for the snowpack in July and August. These have weak to moderate positive associations with each other and weak correlations with precipitation and snowpack in the windter months. The exceptions are snowpack for May and October, and precipitation for April and October, which are moderately correlated with the winter snowpack and precipitation variables because of the seasonal trends.
+The third cluster includes the rest of the precipitation and snowpack levels except for the snowpack in July and August. These have weak to moderate positive associations with each other and weak correlations with precipitation and snowpack in the winter months. The exceptions are snowpack for May and October, and precipitation for April and October, which are moderately correlated with the winter snowpack and precipitation variables because of the seasonal trends.
 
 The final cluster is comprised only of snowpack for July and August, the months when there is very little snow. These are weakly correlated with June snowpack and essentially uncorrelated with all of the other variables.
 
@@ -162,7 +162,9 @@ mantel.out <- mantel(spat.dists, tmin1.dists)
 ```
 
 ```{r p7_b, echo=F, comment=NA, message=FALSE, fig.pos="H", fig.align="center", cache=T, size="footnotesize", fig.height=4, fig.width=10}
-print(mantel.out)
+mantel.table <- rbind(c(mantel.out$statistic,mantel.out$statistic, quantile(mantel.out$perm, c(.9,.95,.975,.99)), mantel.out$permutations))
+colnames(mantel.table)[c(1,2,7)] <- c("Mantel statistic", "p-value", "permutations")
+pander(mantel.table, round=4)
 densityplot(permustats(mantel.out), xlim=c(-0.055, 0.255),
             scales=list(x=list(at=seq(-0.05, 0.25, 0.05))), n=200)
 ```
