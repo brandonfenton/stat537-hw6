@@ -77,8 +77,10 @@ ev.scores <- as.matrix(scale(tc1_r)) %*% ev.4
 # Take a random sample of predicted scores
 set.seed(832)
 rows <- sample(length(predict.scores), 20)
-pander(cbind("predict()" = predict.scores[rows], "computed" = ev.scores[rows], "difference" = predict.scores[rows] - ev.scores[rows,]),
-       caption = paste("Sum of all", length(predict.scores), "differences =", round(sum(predict.scores - ev.scores), 10)))
+pander(cbind("predict()" = predict.scores[rows], "computed" = ev.scores[rows],
+             "difference" = predict.scores[rows] - ev.scores[rows,]),
+       caption = paste("Sum of all", length(predict.scores), "differences =",
+                       round(sum(predict.scores - ev.scores), 10)))
 ```
 
 5) _Now use your interpretation of PC4 to define a set of coefficients that should involve a reduced set of coefficients that are "different" from 0 to calculate the PC 4 scores. Make a plot of the real scores using all coefficients and based on this subset and compare the results._
@@ -134,8 +136,6 @@ This comparison has been made on the basis of a single permutation, so cannot be
 
 7) _Perform a Mantel test for a Euclidean distance matrix between the tmin1's vs a Euclidean distance matrix between the spatial locations defined by the lat and lon variables. Report the null hypothesis for the test specific to the situation. And report what you can conclude based on the result. [Note: this may take a while to run on your computer and might! cause you to run out of RAM. You are welcome to work with other students to obtain a computer with sufficient resources to complete the permutations.] Does this result agree or disagree with your previous result._
 
-The Mantel test is used to test the null hypothesis that $\rho=0$, where $\rho$ is the correlation between the Euclidean spatial distance and the distance on the scale of the minimum January temperature. The observed correlation coefficient is $r=0.206$. 999 samples are simulated by permuting the distance matrices. The observed result has a p-value of 0.001, providing strong evidence of a relationship between relative spatial location and minimum January temperature. This formalizes our conclusion in question 6 that minimum January temperature has a spatial structure.
-
 ```{r p7_a, echo=F, comment=NA, message=FALSE, fig.pos="H", fig.align="center", cache=T, size="footnotesize"}
 require(vegan)
 spat.dists <- dist(data.frame(tc1$lat, tc1$lon))
@@ -151,6 +151,8 @@ print(mantel.out)
 densityplot(permustats(mantel.out), xlim=c(-0.055, 0.255),
             scales=list(x=list(at=seq(-0.05, 0.25, 0.05))), n=200)
 ```
+
+The Mantel test is used to test the null hypothesis that $\rho=0$, where $\rho$ is the correlation between the Euclidean spatial distance and the distance on the scale of the minimum January temperature. The observed correlation coefficient is $r=0.206$. 999 samples are simulated by permuting the distance matrices. The observed result has a p-value of 0.001, providing strong evidence of a relationship between relative spatial location and minimum January temperature. This formalizes our conclusion in question 6 that minimum January temperature has a spatial structure.
 
 # R Code Appendix:
 
