@@ -55,7 +55,7 @@ abline(h=c(1, 0.75), lty=2:3)
 
 3) _Interpret the first and fourth PCs based on the eigenvector coefficients._
 
-```{r p3_a, echo=F, message=F, comment=NA, fig.pos="H", fig.align="center", cache=F, size="footnotesize"}
+```{r p3_a, echo=F, message=F, comment=NA, fig.pos="H", fig.align="center", cache=T, size="tiny"}
 require(pander)
 
 pander(pcs$rotation[,c(1,4)])
