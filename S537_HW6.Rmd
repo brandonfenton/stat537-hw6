@@ -104,8 +104,9 @@ abline(a=0, b=1)
 
 6) _For the moment, we will focus on just January minimum temperatures (something they used as an explanatory variable in their predictive model). The following fits a bivariate tensor-product penalized regression spline as function of the latitude and longitude of the observations and generates an estimated surface for the mean temperature as a deviation from the mean. Does location seem to matter for the temperatures? (I am not expecting you to know anything about the GAM I am using - it is just an estimate of the mean temperature surface.)_
 
-```{r, warning=F,message=F}
+```{r, warning=F,message=F, echo=F}
 require(mgcv)
+layout(rbind(c(1,2)))
 gm1<-gam(tmin1~te(lon,lat),data=tc1)
  plot(gm1)
  vis.gam(gm1)
@@ -115,7 +116,7 @@ There does seem to be a clear relationship between location and January minimum 
 
 ```{r p6_a, warning=F,message=F, echo=F}
 require(permute)
- 
+layout(rbind(c(1,2))) 
 set.seed(4)
 
 loc.shuffle <- shuffle(length(tc1$lon))
@@ -132,7 +133,7 @@ gam.comparison <- rbind(summary(gm1)$s.table, summary(gm2)$s.table)
 rownames(gam.comparison) <- c("Original", "Shuffled")
 ```
 
-The approximate F-test for the GAM fit using the original spatial locations has an extremely low p-value, while the fit using shuffled locations is 0.46, further supporting the existence of a potential relationship between location and temperature:   
+The approximate F-test for the GAM fit using the original spatial locations has an extremely low p-value, while the fit using shuffled locations is 0.46, further supporting the potential existence of a relationship between location and temperature:   
 
 ```{r p6_b, warning=F, message=F, echo=F}
 pander(gam.comparison, caption = "GAMs fit with original vs. shuffled spatial locations")
