@@ -46,7 +46,7 @@ layout(rbind(c(1,2,2)))
 pcs <- prcomp(tc1_r, scale=T, center=T)
 
 # Biplot
-biplot(pcs, col =  c("#00000040", "#ff0000c0"))
+biplot(pcs, col =  c("#00000020", "#ff000040"))
 
 # Scree plot
 plot(pcs, type="lines", main = "Eigenvalues")
@@ -58,19 +58,23 @@ abline(h=c(1, 0.75), lty=2:3)
 ```{r p3_a, echo=F, message=F, comment=NA, fig.pos="H", fig.align="center", cache=F, size="footnotesize"}
 require(pander)
 
-pander(pcs$rotation[,c(1,4)])
-
+pander(pcs$rotation[,c(1,4)], caption = "The first and fourth principal components")
 ```
 
 4) _Calculate the fourth PC using the predict function. Then replicate that calculation using the eigenvector and original variables (remember that the variables need to be standardized - the scale() function is a nice option). Show that they are the same._
+
+The table compares the the predicted summer snowpack values for 20 observations found both using the predict function and by multiplying the data matrix by the principal component vector.
 
 ```{r p4_a, echo=F, comment=NA, fig.pos="H", fig.align="center", cache=T, size="footnotesize"}
 predict.scores <- predict(pcs)[,4]
 ev.4 <- pcs$rotation[,4]
 ev.scores <- as.matrix(scale(tc1_r)) %*% ev.4
 
-round(sum(predict.scores - ev.scores), 10)
-
+# Take a random sample of predicted scores
+set.seed(832)
+rows <- sample(length(predict.scores), 20)
+pander(cbind("predict()" = predict.scores[rows], "computed" = ev.scores[rows], "difference" = predict.scores[rows] - ev.scores[rows,]),
+       caption = paste("Sum of all", length(predict.scores), "differences =", round(sum(predict.scores - ev.scores), 10)))
 ```
 
 5) Now use your interpretation of PC4 to define a set of coefficients that should involve a reduced set of coefficients that are "different" from 0 to calculate the PC 4 scores. Make a plot of the real scores using all coefficients and based on this subset and compare the results. 
@@ -140,6 +144,14 @@ This comparison has been made on the basis of a single permutation, so cannot be
 ```
 
 # R Code Appendix:
+
+Loading Data:
+```{r a0, ref.label='p0_a', eval=F}
+```
+
+Problem 1:
+```{r a1, ref.label='p1_a', eval=F}
+```
 
 Problem 2:
 ```{r a2, ref.label='p2_a', eval=F}
