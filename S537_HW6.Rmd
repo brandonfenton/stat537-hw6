@@ -55,7 +55,7 @@ abline(h=c(1, 0.75), lty=2:3)
 
 3) _Interpret the first and fourth PCs based on the eigenvector coefficients._
 
-```{r p3_a, echo=F, message=F, comment=NA, fig.pos="H", fig.align="center", cache=T, size="footnotesize"}
+```{r p3_a, echo=F, message=F, comment=NA, fig.pos="H", fig.align="center", cache=F, size="footnotesize"}
 require(pander)
 
 pander(pcs$rotation[,c(1,4)])
@@ -94,21 +94,35 @@ gm1<-gam(tmin1~te(lon,lat),data=tc1)
  vis.gam(gm1)
 ``` 
 
-
-
-    There does seem to be a clear relationship between location and January minimum temperatures.  If this were not the case,  
+There does seem to be a clear relationship between location and January minimum temperatures.  If this were not the case, we would expect to see a far simpler temperature surface since the GAM would essentially be fitting to noise.  If we shuffle the latitude/longitude pairs and refit the GAM, the resulting fit supports our expectation:
 
 ```{r p6_a, warning=F,message=F}
-set.seed(444)
+require(permute)
+ 
+set.seed(4)
 
-rlon <- runif(length(tc1$lon), min(tc1$lon), max(tc1$lon))
-rlat <- runif(length(tc1$lat), min(tc1$lat), max(tc1$lat))
+loc.shuffle <- shuffle(length(tc1$lon))
+rlat <- tc1$lat[loc.shuffle]
+rlon <- tc1$lon[loc.shuffle]
  
 gm2<-gam(tmin1~te(rlon,rlat),data=tc1)
 
- plot(gm2)
- vis.gam(gm2)
+plot(gm2)
+vis.gam(gm2)
+
+gam.comparison <- rbind(summary(gm1)$s.table, summary(gm2)$s.table)
+
+rownames(gam.comparison) <- c("Original", "Shuffled")
+```
+
+The approximate F-test for the GAM fit using the original spatial locations has an extremely low p-value, while the fit using shuffled locations is 0.46, further supporting the existence of a potential relationship between location and temperature:   
+
+```{r p6_b, warning=F,message=F}
+pander(gam.comparison, caption = "GAMs fit with original vs. shuffled spatial locations")
 ```  
+
+This comparison has been made on the basis of a single permutation, so cannot be used to make any strong conclusions.  The Mantel test in question 7 provides a more thorough permutation-based comparison between temperature and distance.
+
 
 7) Perform a Mantel test for a Euclidean distance matrix between the tmin1's vs a Euclidean distance matrix between the spatial locations defined by the lat and lon variables. Report the null hypothesis for the test specific to the situation. And report what you can conclude based on the result. [Note: this may take a while to run on your computer and might! cause you to run out of RAM. You are welcome to work with other students to obtain a computer with sufficient resources to complete the permutations.] Does this result agree or disagree with your previous result.
 
