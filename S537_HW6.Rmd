@@ -104,7 +104,7 @@ gm1<-gam(tmin1~te(lon,lat),data=tc1)
 
 There does seem to be a clear relationship between location and January minimum temperatures.  If this were not the case, we would expect to see a far simpler temperature surface since the GAM would essentially be fitting to noise.  If we shuffle the latitude/longitude pairs and refit the GAM, the resulting fit supports our expectation:
 
-```{r p6_a, warning=F,message=F}
+```{r p6_a, warning=F,message=F, echo=F}
 require(permute)
  
 set.seed(4)
@@ -125,7 +125,7 @@ rownames(gam.comparison) <- c("Original", "Shuffled")
 
 The approximate F-test for the GAM fit using the original spatial locations has an extremely low p-value, while the fit using shuffled locations is 0.46, further supporting the existence of a potential relationship between location and temperature:   
 
-```{r p6_b, warning=F,message=F}
+```{r p6_b, warning=F, message=F, echo=F}
 pander(gam.comparison, caption = "GAMs fit with original vs. shuffled spatial locations")
 ```  
 
