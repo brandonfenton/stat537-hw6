@@ -8,7 +8,7 @@ header-includes: \usepackage{float}
 
 The following will involve working with a data set related to spatial variation in a suite of potential predictor variables and then, eventually, for building a predictive model for the presence/absence of whitebark pine in the greater Yellowstone Ecosystem. 
 
-For this work, we will focus on the historic climate and water balance data only (read the related sections carefully for variable names and definitions) in http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0111669
+For this work, we will focus on the historic climate and water balance data only (read the related sections carefully for variable names and definitions) in \url{http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0111669}.
 
 Read the article as we will find all of the paper interesting before the end of the semester. Initially, we are interested in doing a PCA of the monthly 1950 to 1980 average minimum and maximum temperature, precipitation, and snow pack (Q=48). Note that the number of each variable is the month of the year from January to December (1 to 12). You can use tc1_r below for this first analysis as I subset the entire data set for you. 
 
