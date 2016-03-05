@@ -71,6 +71,7 @@ pander(splittable, caption = "The first and fourth principal components")
 
 The first principal component describes the how wintery the weather tends to be at the location of each observation. This PC takes large values when temperatures are low and precipitation and snowpack are high, but snowpack in the summer months is downweighted. The summer snowpack is measured by the fourth PC, which is a weighted average of the snowpack in June through September. July and August get the largest weights, while June and September are respectively weighted about two-thirds and one-third as heavily as the midsummer months.
 
+\pagebreak
 4) _Calculate the fourth PC using the predict function. Then replicate that calculation using the eigenvector and original variables (remember that the variables need to be standardized - the scale() function is a nice option). Show that they are the same._
 
 The table compares the the predicted summer snowpack values for 20 observations found both using the predict function and by multiplying the data matrix by the principal component vector.
@@ -107,7 +108,7 @@ plot(x=ev.scores.red[ev.scores.red<10], y = ev.scores[ev.scores.red<10],
 abline(a=0, b=1)
 ```
 
-The reduced PC4 uses only the snowpack levels for June through September. Most observations fall along a line in the plots, although there is some vertical scatter where observations had little snowpack in those months but large enough values of other variables to
+The reduced PC4 uses only the snowpack levels for June through September. Most observations fall along a line in the plots, although there is some vertical scatter where observations had little snowpack in those months but values of other variables were large enough to affect the value of PC4. Overall, little is lost by omitting the coefficients that are close to 0.
 
 6) _For the moment, we will focus on just January minimum temperatures (something they used as an explanatory variable in their predictive model). The following fits a bivariate tensor-product penalized regression spline as function of the latitude and longitude of the observations and generates an estimated surface for the mean temperature as a deviation from the mean. Does location seem to matter for the temperatures? (I am not expecting you to know anything about the GAM I am using - it is just an estimate of the mean temperature surface.)_
 
