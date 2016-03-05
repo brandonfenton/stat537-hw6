@@ -85,12 +85,19 @@ pander(cbind("predict()" = predict.scores[rows], "computed" = ev.scores[rows],
 
 5) _Now use your interpretation of PC4 to define a set of coefficients that should involve a reduced set of coefficients that are "different" from 0 to calculate the PC 4 scores. Make a plot of the real scores using all coefficients and based on this subset and compare the results._
 
-```{r p5_a, echo=F, comment=NA, fig.pos="H", fig.align="center", cache=T, size="footnotesize"}
-diff.0 <- which(ev.4 > 0.30)
+```{r p5_a, echo=F, comment=NA, fig.pos="H", fig.align="center", cache=T, size="footnotesize", fig.height=5, fig.width=10}
+diff.0 <- which(ev.4 > 0.15)
 ev.scores.red <- as.matrix(scale(tc1_r[,diff.0])) %*% ev.4[diff.0] 
 
-plot(x=ev.scores.red, y = ev.scores, col=rgb(.6,0,0, .5), pch = 20,
-     xlab = "Reduced PC4 (summer snowpack only)", ylab = "Full PC4")
+par(mfrow=c(1,2))
+plot(x=ev.scores.red, y = ev.scores, col=rgb(.6,0,0, .5), pch = 20, asp = 1,
+     xlab = "Reduced PC4 (summer snowpack only)", ylab = "Full PC4",
+     main = "All observations")
+abline(a=0, b=1)
+plot(x=ev.scores.red[ev.scores.red<10], y = ev.scores[ev.scores.red<10],
+     col=rgb(.6,0,0, .5), pch = 20, asp = 1,
+     xlab = "Reduced PC4 (summer snowpack only)", ylab = "Full PC4",
+     main = "Observations with summer snowpack below 10")
 abline(a=0, b=1)
 
 ```
