@@ -79,6 +79,12 @@ round(sum(predict.scores - ev.scores), 10)
 5) Now use your interpretation of PC4 to define a set of coefficients that should involve a reduced set of coefficients that are "different" from 0 to calculate the PC 4 scores. Make a plot of the real scores using all coefficients and based on this subset and compare the results. 
 
 ```{r p5_a, echo=F, comment=NA, fig.pos="H", fig.align="center", cache=T, size="footnotesize"}
+diff.0 <- which(ev.4 > 0.30)
+ev.scores.red <- as.matrix(scale(tc1_r[,diff.0])) %*% ev.4[diff.0] 
+
+plot(x=ev.scores.red, y = ev.scores, col=rgb(.6,0,0, .5), pch = 20,
+     xlab = "Reduced PC4 (summer snowpack only)", ylab = "Full PC4")
+abline(a=0, b=1)
 
 ```
 
@@ -90,7 +96,23 @@ gm1<-gam(tmin1~te(lon,lat),data=tc1)
  plot(gm1)
  vis.gam(gm1)
 ``` 
+
+
+
+    There does seem to be a clear relationship between location and January minimum temperatures.  If this were not the case,  
+
+```{r p6_a, warning=F,message=F}
+set.seed(444)
+
+rlon <- runif(length(tc1$lon), min(tc1$lon), max(tc1$lon))
+rlat <- runif(length(tc1$lat), min(tc1$lat), max(tc1$lat))
  
+gm2<-gam(tmin1~te(rlon,rlat),data=tc1)
+
+ plot(gm2)
+ vis.gam(gm2)
+```  
+
 7) Perform a Mantel test for a Euclidean distance matrix between the tmin1's vs a Euclidean distance matrix between the spatial locations defined by the lat and lon variables. Report the null hypothesis for the test specific to the situation. And report what you can conclude based on the result. [Note: this may take a while to run on your computer and might! cause you to run out of RAM. You are welcome to work with other students to obtain a computer with sufficient resources to complete the permutations.] Does this result agree or disagree with your previous result.
 
 ```{r p7_a, echo=F, comment=NA, fig.pos="H", fig.align="center", cache=T, size="footnotesize"}
