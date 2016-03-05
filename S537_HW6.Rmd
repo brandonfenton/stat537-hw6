@@ -61,9 +61,15 @@ abline(h=c(1, 0.75), lty=2:3)
 3) _Interpret the first and fourth PCs based on the eigenvector coefficients._
 
 ```{r p3_a, echo=F, message=F, comment=NA, fig.pos="H", fig.align="center", cache=T, size="tiny"}
-
-pander(pcs$rotation[,c(1,4)], caption = "The first and fourth principal components")
+splittable <- cbind("Variable" = rownames(pcs$rotation[1:24,c(1,4)]),
+                    round(pcs$rotation[1:24,c(1,4)], 5),
+                    "Variable" = rownames(pcs$rotation[25:48,c(1,4)]),
+                    round(pcs$rotation[25:48,c(1,4)], 5))
+rownames(splittable) <- 1:24
+pander(splittable, caption = "The first and fourth principal components")
 ```
+
+The first principal component describes the how wintery the weather tends to be at the location of each observation. This PC takes large values when temperatures are low and precipitation and snowpack are high, but snowpack in the summer months is downweighted. The summer snowpack is measured by the fourth PC, which is a weighted average of the snowpack in June through September. July and August get the largest weights, while June and September are respectively weighted about two-thirds and one-third as heavily as the midsummer months.
 
 4) _Calculate the fourth PC using the predict function. Then replicate that calculation using the eigenvector and original variables (remember that the variables need to be standardized - the scale() function is a nice option). Show that they are the same._
 
