@@ -77,8 +77,10 @@ ev.scores <- as.matrix(scale(tc1_r)) %*% ev.4
 # Take a random sample of predicted scores
 set.seed(832)
 rows <- sample(length(predict.scores), 20)
-pander(cbind("predict()" = predict.scores[rows], "computed" = ev.scores[rows], "difference" = predict.scores[rows] - ev.scores[rows,]),
-       caption = paste("Sum of all", length(predict.scores), "differences =", round(sum(predict.scores - ev.scores), 10)))
+pander(cbind("predict()" = predict.scores[rows], "computed" = ev.scores[rows],
+             "difference" = predict.scores[rows] - ev.scores[rows,]),
+       caption = paste("Sum of all", length(predict.scores), "differences =",
+                       round(sum(predict.scores - ev.scores), 10)))
 ```
 
 5) _Now use your interpretation of PC4 to define a set of coefficients that should involve a reduced set of coefficients that are "different" from 0 to calculate the PC 4 scores. Make a plot of the real scores using all coefficients and based on this subset and compare the results._
@@ -144,10 +146,13 @@ mantel.out <- mantel(spat.dists, tmin1.dists)
 #)
 ```
 
-```{r p7_b, echo=F, comment=NA, message=FALSE, fig.pos="H", fig.align="center", cache=T, size="footnotesize"}
+```{r p7_b, echo=F, comment=NA, message=FALSE, fig.pos="H", fig.align="center", cache=T, size="footnotesize", fig.height=4, fig.width=10}
 print(mantel.out)
-densityplot(permustats(mantel.out))
+densityplot(permustats(mantel.out), xlim=c(-0.055, 0.255),
+            scales=list(x=list(at=seq(-0.05, 0.25, 0.05))), n=200)
 ```
+
+The Mantel test is used to test the null hypothesis that $\rho=0$, where $\rho$ is the correlation between the Euclidean spatial distance and the distance on the scale of the minimum January temperature. The observed correlation coefficient is $r=0.206$. 999 samples are simulated by permuting the distance matrices. The observed result has a p-value of 0.001, providing strong evidence of a relationship between relative spatial location and minimum January temperature. This formalizes our conclusion in question 6 that minimum January temperature has a spatial structure.
 
 # R Code Appendix:
 
