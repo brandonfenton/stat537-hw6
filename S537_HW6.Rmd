@@ -14,24 +14,32 @@ Read the article as we will find all of the paper interesting before the end of 
 
 The provided code will source in a modified version of corrplot.mixed that I will discuss in class. The short version is that it orders the variables based on a hierarchical cluster analysis using a dissimilarity measure that treats positive and negative correlations equally (two variables that have r=0.5 are just as similar as two variables that have r=-0.5). 
 
-```{r, warning=F, message=F, cache=T, fig.height=10, fig.width=10}
+```{r p0_a, echo=F, warning=F, message=F, cache=T, fig.height=10, fig.width=10}
 # Whatever R setup is on Euclid refuses to use https
- tc1<-read.csv("tcdata.csv",header=T) 
- tc1$responsef<-factor(tc1$response)
- tc1_r<-tc1[,c(4:39,64:75)]
- cor1<-cor(tc1_r)
- 
- require(corrplot)
- source("corplotMG.R")
- corrplot_mg(cor1,order="hclust",tl.pos="lt")
- 
- 
+tc1<-read.csv("tcdata.csv",header=T)
+tc1$responsef<-factor(tc1$response)
+tc1_r<-tc1[,c(4:39,64:75)]
+cor1<-cor(tc1_r)
 ```
 
 1) _Discuss the pattern in the correlation matrix._
 
+There are four apparent clusters of variables. The first consists of the the precipitation and snowpack levels for November through March, as well as the snowpack level for April. These are all very highly correlated because the amount of precipitation in one month affects the amount of snowpack for that month, and then the snowpack carries over to the next month.
+
+The second cluster includes all of the temperature variables. These have positive correlations since temperature trends continue from one month to the next. The minimum and maximum temperatures form two sub-clusters, with maxima being strongly correlated with other maxima, and minima strongly correlated with other minima, but the correlations are weak to moderate between minimum temperatures and maximum tempteratures. The temperature variables are negatively correlated with precipitation and snowpack.
+
+The third cluster includes the rest of the precipitation and snowpack levels except for the snowpack in July and August. These have weak to moderate positive associations with each other and weak correlations with precipitation and snowpack in the windter months. The exceptions are snowpack for May and October, and precipitation for April and October, which are moderately correlated with the winter snowpack and precipitation variables because of the seasonal trends.
+
+The final cluster is comprised only of snowpack for July and August, the months when there is very little snow. These are weakly correlated with June snowpack and essentially uncorrelated with all of the other variables.
+
+```{r p1_a, echo=F, warning=F, message=F, cache=T, fig.height=10, fig.width=10}
+require(corrplot)
+source("corplotMG.R")
+corrplot_mg(cor1,order="hclust",tl.pos="lt")
+```
+
 2) _Perform a PCA of these variables based on the correlation matrix, report a biplot and scree plot. No discussion, just plots._
-```{r p2_a, echo=F, comment=NA, fig.pos="H", fig.align="center", cache=T, size="footnotesize"}
+```{r p2_a, echo=F, comment=NA, fig.pos="H", fig.align="center", cache=T, size="sripctsize"}
 # PCA
 pcs <- prcomp(tc1_r, scale=T, center=T)
 
