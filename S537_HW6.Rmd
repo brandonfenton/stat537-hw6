@@ -134,17 +134,19 @@ This comparison has been made on the basis of a single permutation, so cannot be
 
 7) _Perform a Mantel test for a Euclidean distance matrix between the tmin1's vs a Euclidean distance matrix between the spatial locations defined by the lat and lon variables. Report the null hypothesis for the test specific to the situation. And report what you can conclude based on the result. [Note: this may take a while to run on your computer and might! cause you to run out of RAM. You are welcome to work with other students to obtain a computer with sufficient resources to complete the permutations.] Does this result agree or disagree with your previous result._
 
-```{r p7_a, echo=F, comment=NA, fig.pos="H", fig.align="center", cache=T, size="footnotesize"}
- require(vegan)
- spat.dists <- dist(data.frame(tc1$lat, tc1$lon))
- tmin1.dists <- dist(tc1_r$tmin1)
- 
- # ptm <- proc.time()
- 
- mantel(spat.dists, tmin1.dists)
- 
- # exectime <- proc.time() - ptm
- # print(exectime)
+```{r p7_a, echo=F, comment=NA, message=FALSE, fig.pos="H", fig.align="center", cache=T, size="footnotesize"}
+require(vegan)
+spat.dists <- dist(data.frame(tc1$lat, tc1$lon))
+tmin1.dists <- dist(tc1_r$tmin1)
+
+# system.time(
+mantel.out <- mantel(spat.dists, tmin1.dists)
+#)
+```
+
+```{r p7_b, echo=F, comment=NA, message=FALSE, fig.pos="H", fig.align="center", cache=T, size="footnotesize"}
+print(mantel.out)
+densityplot(permustats(mantel.out))
 ```
 
 # R Code Appendix:
@@ -175,6 +177,8 @@ Problem 5:
 
 Problem 7:
 ```{r a7, ref.label='p7_a', eval=F}
+```
+```{r b7, ref.label='p7_b', eval=F}
 ```
 
 <!--- ### About This Markdown File
