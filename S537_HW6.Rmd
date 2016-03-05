@@ -6,6 +6,11 @@ output: pdf_document
 header-includes: \usepackage{float}
 ---
 
+
+```{r setup, echo=F, message=F, warning=F}
+require(pander)
+```
+
 The following will involve working with a data set related to spatial variation in a suite of potential predictor variables and then, eventually, for building a predictive model for the presence/absence of whitebark pine in the greater Yellowstone Ecosystem. 
 
 For this work, we will focus on the historic climate and water balance data only (read the related sections carefully for variable names and definitions) in \url{http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0111669}.
@@ -56,7 +61,6 @@ abline(h=c(1, 0.75), lty=2:3)
 3) _Interpret the first and fourth PCs based on the eigenvector coefficients._
 
 ```{r p3_a, echo=F, message=F, comment=NA, fig.pos="H", fig.align="center", cache=T, size="tiny"}
-require(pander)
 
 pander(pcs$rotation[,c(1,4)], caption = "The first and fourth principal components")
 ```
