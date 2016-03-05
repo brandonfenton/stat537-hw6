@@ -105,8 +105,9 @@ plot(x=ev.scores.red[ev.scores.red<10], y = ev.scores[ev.scores.red<10],
      xlab = "Reduced PC4 (summer snowpack only)", ylab = "Full PC4",
      main = "Observations with summer snowpack below 10")
 abline(a=0, b=1)
-
 ```
+
+The reduced PC4 uses only the snowpack levels for June through September. Most observations fall along a line in the plots, although there is some vertical scatter where observations had little snowpack in those months but large enough values of other variables to
 
 6) _For the moment, we will focus on just January minimum temperatures (something they used as an explanatory variable in their predictive model). The following fits a bivariate tensor-product penalized regression spline as function of the latitude and longitude of the observations and generates an estimated surface for the mean temperature as a deviation from the mean. Does location seem to matter for the temperatures? (I am not expecting you to know anything about the GAM I am using - it is just an estimate of the mean temperature surface.)_
 
