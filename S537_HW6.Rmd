@@ -175,6 +175,13 @@ Problem 5:
 ```{r a5, ref.label='p5_a', eval=F}
 ```
 
+Problem 6:
+```{r a6, ref.label='p5_a', eval=F}
+```
+
+```{r a6b, ref.label='p5_b', eval=F}
+```
+
 Problem 7:
 ```{r a7, ref.label='p7_a', eval=F}
 ```
