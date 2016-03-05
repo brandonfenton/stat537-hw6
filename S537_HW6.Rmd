@@ -33,7 +33,7 @@ There are four apparent clusters of variables. The first consists of the the pre
 
 The second cluster includes all of the temperature variables. These have positive correlations since temperature trends continue from one month to the next. The minimum and maximum temperatures form two sub-clusters, with maxima being strongly correlated with other maxima, and minima strongly correlated with other minima, but the correlations are weak to moderate between minimum temperatures and maximum tempteratures. The temperature variables are negatively correlated with precipitation and snowpack.
 
-The third cluster includes the rest of the precipitation and snowpack levels except for the snowpack in July and August. These have weak to moderate positive associations with each other and weak correlations with precipitation and snowpack in the windter months. The exceptions are snowpack for May and October, and precipitation for April and October, which are moderately correlated with the winter snowpack and precipitation variables because of the seasonal trends.
+The third cluster includes the rest of the precipitation and snowpack levels except for the snowpack in July and August. These have weak to moderate positive associations with each other and weak correlations with precipitation and snowpack in the winter months. The exceptions are snowpack for May and October, and precipitation for April and October, which are moderately correlated with the winter snowpack and precipitation variables because of the seasonal trends.
 
 The final cluster is comprised only of snowpack for July and August, the months when there is very little snow. These are weakly correlated with June snowpack and essentially uncorrelated with all of the other variables.
 
