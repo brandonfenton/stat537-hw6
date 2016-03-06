@@ -112,19 +112,19 @@ The reduced PC4 uses only the snowpack levels for June through September. Most o
 
 6) _For the moment, we will focus on just January minimum temperatures (something they used as an explanatory variable in their predictive model). The following fits a bivariate tensor-product penalized regression spline as function of the latitude and longitude of the observations and generates an estimated surface for the mean temperature as a deviation from the mean. Does location seem to matter for the temperatures? (I am not expecting you to know anything about the GAM I am using - it is just an estimate of the mean temperature surface.)_
 
-```{r, warning=F,message=F, echo=F}
+```{r, warning=F,message=F, echo=F, fig.height=5, fig.width=10}
 require(mgcv)
-layout(rbind(c(1,2)))
+par(mfrow=c(1,2))
 gm1<-gam(tmin1~te(lon,lat),data=tc1)
- plot(gm1)
+ plot(gm1, asp=1)
  vis.gam(gm1)
 ``` 
 
 There does seem to be a clear relationship between location and January minimum temperatures.  If this were not the case, we would expect to see a far simpler temperature surface since the GAM would essentially be fitting to noise.  If we shuffle the latitude/longitude pairs and refit the GAM, the resulting fit supports our expectation:
 
-```{r p6_a, warning=F,message=F, echo=F}
+```{r p6_a, warning=F,message=F, echo=F, fig.height=5, fig.width=10}
 require(permute)
-layout(rbind(c(1,2))) 
+par(mfrow=c(1,2))
 set.seed(4)
 
 loc.shuffle <- shuffle(length(tc1$lon))
@@ -171,6 +171,8 @@ densityplot(permustats(mantel.out), xlim=c(-0.055, 0.255),
 ```
 
 The Mantel test is used to test the null hypothesis that $\rho=0$, where $\rho$ is the correlation between the Euclidean spatial distance and the distance on the scale of the minimum January temperature. The observed correlation coefficient is $r=0.206$. 999 samples are simulated by permuting the distance matrices. The observed result has a p-value of 0.001, providing strong evidence of a relationship between relative spatial location and minimum January temperature. This formalizes our conclusion in question 6 that minimum January temperature has a spatial structure.
+
+\pagebreak
 
 # R Code Appendix:
 
